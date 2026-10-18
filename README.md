@@ -1,4 +1,4 @@
-# ATS Pro Suite 📄✨
+# ATS Pro Suite 📄
 
 > **Modern, Privacy-First, ATS-Friendly AI Resume, CV & Cover Letter Suite**  
 > Built with **TanStack Start (SSR)**, **React 19**, **TypeScript**, **Tailwind CSS v4**, **Google Gemini AI**, and **Clerk Auth**.
