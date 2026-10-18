@@ -1,7 +1,15 @@
 import { DatabaseSync } from "node:sqlite";
 import fs from "node:fs";
 import path from "node:path";
-import type { AnalyzerResult, BuilderResult, DbAnalysis, DbDocument, DocumentType, UserDocumentItem, UserStats } from "./schemas";
+import type {
+  AnalyzerResult,
+  BuilderResult,
+  DbAnalysis,
+  DbDocument,
+  DocumentType,
+  UserDocumentItem,
+  UserStats,
+} from "./schemas";
 export type { DbAnalysis, DbDocument, UserDocumentItem, UserStats };
 
 const DATA_DIR = path.resolve(process.cwd(), "data");
@@ -135,7 +143,7 @@ export function saveDocumentToDb(params: {
       params.jobDescription,
       docJson,
       now,
-      params.slug
+      params.slug,
     );
   } else {
     const insertStmt = db.prepare(`
@@ -150,7 +158,7 @@ export function saveDocumentToDb(params: {
       params.jobDescription,
       docJson,
       now,
-      now
+      now,
     );
   }
 
@@ -189,7 +197,7 @@ export function saveAnalysisToDb(params: {
     params.documentText,
     params.result.ats_score,
     resultJson,
-    now
+    now,
   );
 
   return {
@@ -252,7 +260,10 @@ export function listUserDocuments(userId: string, documentType?: string): UserDo
     ? "SELECT * FROM user_documents WHERE user_id = ? AND document_type = ? ORDER BY updated_at DESC"
     : "SELECT * FROM user_documents WHERE user_id = ? ORDER BY updated_at DESC";
   const stmt = db.prepare(query);
-  const rows = (documentType ? stmt.all(userId, documentType) : stmt.all(userId)) as Record<string, unknown>[];
+  const rows = (documentType ? stmt.all(userId, documentType) : stmt.all(userId)) as Record<
+    string,
+    unknown
+  >[];
 
   return rows.map((r) => ({
     id: String(r["id"]),
@@ -288,10 +299,13 @@ export function getUserDocument(userId: string, id: string): UserDocumentItem | 
   };
 }
 
-export function getLatestUserDocument(userId: string, documentType: string): UserDocumentItem | null {
+export function getLatestUserDocument(
+  userId: string,
+  documentType: string,
+): UserDocumentItem | null {
   const db = getDatabase();
   const stmt = db.prepare(
-    "SELECT * FROM user_documents WHERE user_id = ? AND document_type = ? ORDER BY updated_at DESC LIMIT 1"
+    "SELECT * FROM user_documents WHERE user_id = ? AND document_type = ? ORDER BY updated_at DESC LIMIT 1",
   );
   const r = stmt.get(userId, documentType) as Record<string, unknown> | undefined;
   if (!r) return null;
@@ -352,7 +366,7 @@ export function saveUserDocument(params: {
         docJson,
         now,
         params.userId,
-        params.id
+        params.id,
       );
 
       return {
@@ -385,7 +399,7 @@ export function saveUserDocument(params: {
     jobDescription,
     docJson,
     now,
-    now
+    now,
   );
 
   return {
@@ -439,7 +453,7 @@ export function saveUserAnalysis(params: {
     params.documentText,
     params.result.ats_score,
     resultJson,
-    now
+    now,
   );
 
   // Also record in legacy analyses table
@@ -466,13 +480,20 @@ export function saveUserAnalysis(params: {
   };
 }
 
-export function listUserAnalyses(userId: string, target?: string, limit: number = 10): DbAnalysis[] {
+export function listUserAnalyses(
+  userId: string,
+  target?: string,
+  limit: number = 10,
+): DbAnalysis[] {
   const db = getDatabase();
   const query = target
     ? "SELECT * FROM user_analyses WHERE user_id = ? AND target = ? ORDER BY created_at DESC LIMIT ?"
     : "SELECT * FROM user_analyses WHERE user_id = ? ORDER BY created_at DESC LIMIT ?";
   const stmt = db.prepare(query);
-  const rows = (target ? stmt.all(userId, target, limit) : stmt.all(userId, limit)) as Record<string, unknown>[];
+  const rows = (target ? stmt.all(userId, target, limit) : stmt.all(userId, limit)) as Record<
+    string,
+    unknown
+  >[];
 
   return rows.map((row) => {
     let parsedResult: AnalyzerResult;
@@ -503,15 +524,31 @@ export function listUserAnalyses(userId: string, target?: string, limit: number 
 export function getUserStats(userId: string): UserStats {
   const db = getDatabase();
 
-  const resumes = db.prepare("SELECT COUNT(*) as c FROM user_documents WHERE user_id = ? AND document_type = 'resume'").get(userId) as Record<string, unknown> | undefined;
-  const cvs = db.prepare("SELECT COUNT(*) as c FROM user_documents WHERE user_id = ? AND document_type = 'cv'").get(userId) as Record<string, unknown> | undefined;
-  const coverLetters = db.prepare("SELECT COUNT(*) as c FROM user_documents WHERE user_id = ? AND document_type = 'cover_letter'").get(userId) as Record<string, unknown> | undefined;
-  const analyses = db.prepare("SELECT COUNT(*) as c FROM user_analyses WHERE user_id = ?").get(userId) as Record<string, unknown> | undefined;
+  const resumes = db
+    .prepare(
+      "SELECT COUNT(*) as c FROM user_documents WHERE user_id = ? AND document_type = 'resume'",
+    )
+    .get(userId) as Record<string, unknown> | undefined;
+  const cvs = db
+    .prepare("SELECT COUNT(*) as c FROM user_documents WHERE user_id = ? AND document_type = 'cv'")
+    .get(userId) as Record<string, unknown> | undefined;
+  const coverLetters = db
+    .prepare(
+      "SELECT COUNT(*) as c FROM user_documents WHERE user_id = ? AND document_type = 'cover_letter'",
+    )
+    .get(userId) as Record<string, unknown> | undefined;
+  const analyses = db
+    .prepare("SELECT COUNT(*) as c FROM user_analyses WHERE user_id = ?")
+    .get(userId) as Record<string, unknown> | undefined;
 
-  const recentAnStmt = db.prepare("SELECT id, target, ats_score, created_at FROM user_analyses WHERE user_id = ? ORDER BY created_at DESC LIMIT 5");
+  const recentAnStmt = db.prepare(
+    "SELECT id, target, ats_score, created_at FROM user_analyses WHERE user_id = ? ORDER BY created_at DESC LIMIT 5",
+  );
   const recentAnRows = recentAnStmt.all(userId) as Record<string, unknown>[];
 
-  const docsStmt = db.prepare("SELECT id, title, document_type, updated_at FROM user_documents WHERE user_id = ? ORDER BY updated_at DESC LIMIT 10");
+  const docsStmt = db.prepare(
+    "SELECT id, title, document_type, updated_at FROM user_documents WHERE user_id = ? ORDER BY updated_at DESC LIMIT 10",
+  );
   const docsRows = docsStmt.all(userId) as Record<string, unknown>[];
 
   return {

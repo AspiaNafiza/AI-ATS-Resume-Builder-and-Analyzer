@@ -11,26 +11,33 @@ export const BuilderInput = z.object({
   profile: z.string().min(30, "Add more detail about your background."),
   jobDescription: z.string().default(""),
   targetRole: z.string().default(""),
+  includeCoverLetter: z.boolean().default(false),
 });
 export type BuilderInput = z.infer<typeof BuilderInput>;
 
-export const AnalyzerInput = z.object({
-  target: z.enum(analyzerTargets),
-  document: z.string().default(""),
-  pdf: z
-    .object({
-      filename: z.string().min(1).max(180),
-      base64: z.string().min(1).max(14_000_000),
-    })
-    .nullable()
-    .default(null),
-  jobDescription: z.string().min(20, "Paste the job description."),
-  documentId: z.string().optional(),
-}).superRefine((value, ctx) => {
-  if (value.document.trim().length < 30 && !value.pdf) {
-    ctx.addIssue({ code: z.ZodIssueCode.custom, path: ["document"], message: "Paste the full document text or upload a PDF." });
-  }
-});
+export const AnalyzerInput = z
+  .object({
+    target: z.enum(analyzerTargets),
+    document: z.string().default(""),
+    pdf: z
+      .object({
+        filename: z.string().min(1).max(180),
+        base64: z.string().min(1).max(14_000_000),
+      })
+      .nullable()
+      .default(null),
+    jobDescription: z.string().min(20, "Paste the job description."),
+    documentId: z.string().optional(),
+  })
+  .superRefine((value, ctx) => {
+    if (value.document.trim().length < 30 && !value.pdf) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        path: ["document"],
+        message: "Paste the full document text or upload a PDF.",
+      });
+    }
+  });
 export type AnalyzerInput = z.infer<typeof AnalyzerInput>;
 
 export const SummaryRewriteInput = z.object({
@@ -100,7 +107,7 @@ export type ReferenceEntry = {
 
 export type BuilderResult = {
   document_type: DocumentType;
-  personal?: PersonalInfo;
+  personal?: PersonalInfo | undefined;
   sections: {
     summary: string;
     skills: string[];
@@ -109,9 +116,9 @@ export type BuilderResult = {
     certifications: CertificationEntry[];
     extra: AdditionalEntry[];
     languages: LanguageEntry[];
-    references?: ReferenceEntry[];
-    attachments?: string[];
-    cover_letter?: string;
+    references?: ReferenceEntry[] | undefined;
+    attachments?: string[] | undefined;
+    cover_letter?: string | undefined;
   };
 };
 
@@ -211,7 +218,15 @@ export const builderJsonSchema = {
     sections: {
       type: "object",
       additionalProperties: false,
-      required: ["summary", "skills", "experience", "education", "certifications", "extra", "languages"],
+      required: [
+        "summary",
+        "skills",
+        "experience",
+        "education",
+        "certifications",
+        "extra",
+        "languages",
+      ],
       properties: {
         summary: { type: "string" },
         skills: strArray,
@@ -267,13 +282,7 @@ export const summaryJsonSchema = {
 export const analyzerJsonSchema = {
   type: "object",
   additionalProperties: false,
-  required: [
-    "ats_score",
-    "keyword_match",
-    "skill_match",
-    "experience_relevance",
-    "suggestions",
-  ],
+  required: ["ats_score", "keyword_match", "skill_match", "experience_relevance", "suggestions"],
   properties: {
     ats_score: { type: "integer", minimum: 0, maximum: 100 },
     keyword_match: {
@@ -387,5 +396,3 @@ export type UserStats = {
   recentAnalyses: { id: string; target: string; atsScore: number; createdAt: string }[];
   documents: { id: string; title: string; documentType: DocumentType; updatedAt: string }[];
 };
-
-

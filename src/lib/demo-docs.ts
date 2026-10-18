@@ -202,14 +202,16 @@ export const DEMO_DOCS: Record<DocSlug, BuilderResult> = {
           title: "Asynchronous Resilient State Machine Replication for Heterogeneous Edge Clusters",
           organization: "USENIX Symposium on Operating Systems Design and Implementation (OSDI)",
           period: "2024",
-          details: "First author. Introduced novel quorum protocol reducing cross-datacenter message complexity by 38%.",
+          details:
+            "First author. Introduced novel quorum protocol reducing cross-datacenter message complexity by 38%.",
         },
         {
           type: "Grant",
           title: "NSF Cyber-Physical Systems Core Grant #2319401 ($350,000)",
           organization: "National Science Foundation",
           period: "2023 – 2026",
-          details: "Co-PI investigating decentralized model updates in high-latency wireless networks.",
+          details:
+            "Co-PI investigating decentralized model updates in high-latency wireless networks.",
         },
       ],
       references: [

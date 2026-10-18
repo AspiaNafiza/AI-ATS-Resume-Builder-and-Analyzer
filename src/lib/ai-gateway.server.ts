@@ -2,8 +2,8 @@ const GEMINI_BASE = "https://generativelanguage.googleapis.com/v1beta";
 
 // List of Gemini models to try in order (ensures resilience against temporary 503 spikes)
 const DEFAULT_MODELS = [
-  "gemini-3.5-flash",
   "gemini-3.5-flash-lite",
+  "gemini-3.8-flash",
   "gemini-3.1-flash-lite",
   "gemini-flash-latest",
 ];

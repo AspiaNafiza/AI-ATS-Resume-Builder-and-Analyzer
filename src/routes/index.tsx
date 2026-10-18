@@ -90,7 +90,10 @@ function Index() {
                 "Experience relevance to the posting",
                 "Action verbs and readability",
               ].map((item) => (
-                <li key={item} className="flex gap-3 border-b border-border pb-3 last:border-0 last:pb-0">
+                <li
+                  key={item}
+                  className="flex gap-3 border-b border-border pb-3 last:border-0 last:pb-0"
+                >
                   <span className="text-accent">—</span>
                   {item}
                 </li>

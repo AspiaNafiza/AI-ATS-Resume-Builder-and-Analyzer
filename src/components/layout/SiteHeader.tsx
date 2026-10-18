@@ -92,8 +92,18 @@ export function SiteHeader() {
       {open ? (
         <div className="border-t border-border bg-surface md:hidden">
           <div className="container-page grid gap-6 py-5">
-            <MobileGroup title="Build" base="/builder/$type" stats={stats} onNavigate={() => setOpen(false)} />
-            <MobileGroup title="Analyze" base="/analyzer/$type" stats={stats} onNavigate={() => setOpen(false)} />
+            <MobileGroup
+              title="Build"
+              base="/builder/$type"
+              stats={stats}
+              onNavigate={() => setOpen(false)}
+            />
+            <MobileGroup
+              title="Analyze"
+              base="/analyzer/$type"
+              stats={stats}
+              onNavigate={() => setOpen(false)}
+            />
 
             <div className="border-t border-border pt-4">
               <Show when="signed-out">
@@ -204,7 +214,9 @@ function MobileGroup({
 }) {
   return (
     <div>
-      <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">{title}</p>
+      <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+        {title}
+      </p>
       <div className="mt-2 grid gap-2">
         {items.map((item) => (
           <Link

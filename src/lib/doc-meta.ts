@@ -17,7 +17,10 @@ export const docLabel: Record<DocSlug, string> = {
   "cover-letter": "Cover letter",
 };
 
-export const builderCopy: Record<DocSlug, { title: string; description: string; placeholder: string }> = {
+export const builderCopy: Record<
+  DocSlug,
+  { title: string; description: string; placeholder: string }
+> = {
   resume: {
     title: "Resume builder",
     description:
