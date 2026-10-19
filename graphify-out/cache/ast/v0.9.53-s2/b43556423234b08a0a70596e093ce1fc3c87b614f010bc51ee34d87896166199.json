@@ -1,1 +1,382 @@
-{"nodes": [{"id": "$graphify-root$_readme_md", "label": "README.md", "file_type": "document", "node_kind": "page", "source_file": "README.md", "source_location": "L1"}, {"id": "$graphify-root$_readme_ats_pro_suite", "label": "ATS Pro Suite \ud83d\udcc4\u2728", "file_type": "document", "node_kind": "heading", "source_file": "README.md", "source_location": "L1"}, {"id": "$graphify-root$_readme_overview", "label": "\ud83c\udf1f Overview", "file_type": "document", "node_kind": "heading", "source_file": "README.md", "source_location": "L15"}, {"id": "$graphify-root$_readme_key_features", "label": "\ud83c\udfaf Key Features", "file_type": "document", "node_kind": "heading", "source_file": "README.md", "source_location": "L23"}, {"id": "$graphify-root$_readme_1_ats_resume_builder", "label": "1. \ud83d\udcc4 ATS Resume Builder", "file_type": "document", "node_kind": "heading", "source_file": "README.md", "source_location": "L25"}, {"id": "$graphify-root$_readme_2_ats_cv_builder_academic_professional", "label": "2. \ud83c\udf93 ATS CV Builder (Academic & Professional)", "file_type": "document", "node_kind": "heading", "source_file": "README.md", "source_location": "L31"}, {"id": "$graphify-root$_readme_3_standalone_cover_letter_builder", "label": "3. \u2709\ufe0f Standalone Cover Letter Builder", "file_type": "document", "node_kind": "heading", "source_file": "README.md", "source_location": "L48"}, {"id": "$graphify-root$_readme_4_ats_document_analyzer_auditor", "label": "4. \ud83d\udd0d ATS Document Analyzer & Auditor", "file_type": "document", "node_kind": "heading", "source_file": "README.md", "source_location": "L53"}, {"id": "$graphify-root$_readme_5_privacy_first_architecture", "label": "5. \ud83d\udd12 Privacy-First Architecture", "file_type": "document", "node_kind": "heading", "source_file": "README.md", "source_location": "L59"}, {"id": "$graphify-root$_readme_tech_stack", "label": "\ud83d\udee0\ufe0f Tech Stack", "file_type": "document", "node_kind": "heading", "source_file": "README.md", "source_location": "L65"}, {"id": "$graphify-root$_readme_getting_started_with_pnpm", "label": "\ud83d\ude80 Getting Started with pnpm", "file_type": "document", "node_kind": "heading", "source_file": "README.md", "source_location": "L83"}, {"id": "$graphify-root$_readme_prerequisites", "label": "Prerequisites", "file_type": "document", "node_kind": "heading", "source_file": "README.md", "source_location": "L85"}, {"id": "$graphify-root$_readme_step_1_clone_the_repository", "label": "Step 1: Clone the Repository", "file_type": "document", "node_kind": "heading", "source_file": "README.md", "source_location": "L100"}, {"id": "$graphify-root$_readme_step_2_install_dependencies", "label": "Step 2: Install Dependencies", "file_type": "document", "node_kind": "heading", "source_file": "README.md", "source_location": "L109"}, {"id": "$graphify-root$_readme_step_3_configure_environment_variables", "label": "Step 3: Configure Environment Variables", "file_type": "document", "node_kind": "heading", "source_file": "README.md", "source_location": "L119"}, {"id": "$graphify-root$_readme_step_4_run_the_development_server", "label": "Step 4: Run the Development Server", "file_type": "document", "node_kind": "heading", "source_file": "README.md", "source_location": "L152"}, {"id": "$graphify-root$_readme_step_5_production_build_preview", "label": "Step 5: Production Build & Preview", "file_type": "document", "node_kind": "heading", "source_file": "README.md", "source_location": "L167"}, {"id": "$graphify-root$_readme_available_scripts", "label": "\ud83d\udcdc Available Scripts", "file_type": "document", "node_kind": "heading", "source_file": "README.md", "source_location": "L181"}, {"id": "$graphify-root$_readme_project_structure", "label": "\ud83d\udcc2 Project Structure", "file_type": "document", "node_kind": "heading", "source_file": "README.md", "source_location": "L194"}, {"id": "$graphify-root$_readme_architecture_rules", "label": "\ud83d\udee1\ufe0f Architecture & Rules", "file_type": "document", "node_kind": "heading", "source_file": "README.md", "source_location": "L228"}, {"id": "$graphify-root$_readme_contributing", "label": "\ud83e\udd1d Contributing", "file_type": "document", "node_kind": "heading", "source_file": "README.md", "source_location": "L236"}, {"id": "$graphify-root$_readme_license", "label": "\ud83d\udcc4 License", "file_type": "document", "node_kind": "heading", "source_file": "README.md", "source_location": "L248"}], "edges": [{"source": "$graphify-root$_readme_md", "target": "$graphify-root$_readme_ats_pro_suite", "relation": "contains", "confidence": "EXTRACTED", "source_file": "README.md", "source_location": "L1", "weight": 1.0}, {"source": "$graphify-root$_readme_ats_pro_suite", "target": "$graphify-root$_readme_overview", "relation": "contains", "confidence": "EXTRACTED", "source_file": "README.md", "source_location": "L15", "weight": 1.0}, {"source": "$graphify-root$_readme_ats_pro_suite", "target": "$graphify-root$_readme_key_features", "relation": "contains", "confidence": "EXTRACTED", "source_file": "README.md", "source_location": "L23", "weight": 1.0}, {"source": "$graphify-root$_readme_key_features", "target": "$graphify-root$_readme_1_ats_resume_builder", "relation": "contains", "confidence": "EXTRACTED", "source_file": "README.md", "source_location": "L25", "weight": 1.0}, {"source": "$graphify-root$_readme_key_features", "target": "$graphify-root$_readme_2_ats_cv_builder_academic_professional", "relation": "contains", "confidence": "EXTRACTED", "source_file": "README.md", "source_location": "L31", "weight": 1.0}, {"source": "$graphify-root$_readme_key_features", "target": "$graphify-root$_readme_3_standalone_cover_letter_builder", "relation": "contains", "confidence": "EXTRACTED", "source_file": "README.md", "source_location": "L48", "weight": 1.0}, {"source": "$graphify-root$_readme_key_features", "target": "$graphify-root$_readme_4_ats_document_analyzer_auditor", "relation": "contains", "confidence": "EXTRACTED", "source_file": "README.md", "source_location": "L53", "weight": 1.0}, {"source": "$graphify-root$_readme_key_features", "target": "$graphify-root$_readme_5_privacy_first_architecture", "relation": "contains", "confidence": "EXTRACTED", "source_file": "README.md", "source_location": "L59", "weight": 1.0}, {"source": "$graphify-root$_readme_ats_pro_suite", "target": "$graphify-root$_readme_tech_stack", "relation": "contains", "confidence": "EXTRACTED", "source_file": "README.md", "source_location": "L65", "weight": 1.0}, {"source": "$graphify-root$_readme_ats_pro_suite", "target": "$graphify-root$_readme_getting_started_with_pnpm", "relation": "contains", "confidence": "EXTRACTED", "source_file": "README.md", "source_location": "L83", "weight": 1.0}, {"source": "$graphify-root$_readme_getting_started_with_pnpm", "target": "$graphify-root$_readme_prerequisites", "relation": "contains", "confidence": "EXTRACTED", "source_file": "README.md", "source_location": "L85", "weight": 1.0}, {"source": "$graphify-root$_readme_getting_started_with_pnpm", "target": "$graphify-root$_readme_step_1_clone_the_repository", "relation": "contains", "confidence": "EXTRACTED", "source_file": "README.md", "source_location": "L100", "weight": 1.0}, {"source": "$graphify-root$_readme_getting_started_with_pnpm", "target": "$graphify-root$_readme_step_2_install_dependencies", "relation": "contains", "confidence": "EXTRACTED", "source_file": "README.md", "source_location": "L109", "weight": 1.0}, {"source": "$graphify-root$_readme_getting_started_with_pnpm", "target": "$graphify-root$_readme_step_3_configure_environment_variables", "relation": "contains", "confidence": "EXTRACTED", "source_file": "README.md", "source_location": "L119", "weight": 1.0}, {"source": "$graphify-root$_readme_getting_started_with_pnpm", "target": "$graphify-root$_readme_step_4_run_the_development_server", "relation": "contains", "confidence": "EXTRACTED", "source_file": "README.md", "source_location": "L152", "weight": 1.0}, {"source": "$graphify-root$_readme_getting_started_with_pnpm", "target": "$graphify-root$_readme_step_5_production_build_preview", "relation": "contains", "confidence": "EXTRACTED", "source_file": "README.md", "source_location": "L167", "weight": 1.0}, {"source": "$graphify-root$_readme_ats_pro_suite", "target": "$graphify-root$_readme_available_scripts", "relation": "contains", "confidence": "EXTRACTED", "source_file": "README.md", "source_location": "L181", "weight": 1.0}, {"source": "$graphify-root$_readme_ats_pro_suite", "target": "$graphify-root$_readme_project_structure", "relation": "contains", "confidence": "EXTRACTED", "source_file": "README.md", "source_location": "L194", "weight": 1.0}, {"source": "$graphify-root$_readme_ats_pro_suite", "target": "$graphify-root$_readme_architecture_rules", "relation": "contains", "confidence": "EXTRACTED", "source_file": "README.md", "source_location": "L228", "weight": 1.0}, {"source": "$graphify-root$_readme_ats_pro_suite", "target": "$graphify-root$_readme_contributing", "relation": "contains", "confidence": "EXTRACTED", "source_file": "README.md", "source_location": "L236", "weight": 1.0}, {"source": "$graphify-root$_readme_ats_pro_suite", "target": "$graphify-root$_readme_license", "relation": "contains", "confidence": "EXTRACTED", "source_file": "README.md", "source_location": "L248", "weight": 1.0}, {"source": "$graphify-root$_readme_md", "target": "$graphify-root$_license_md", "relation": "references", "confidence": "EXTRACTED", "source_file": "README.md", "source_location": "L250", "weight": 1.0}], "input_tokens": 0, "output_tokens": 0}
+{
+  "nodes": [
+    {
+      "id": "$graphify-root$_readme_md",
+      "label": "README.md",
+      "file_type": "document",
+      "node_kind": "page",
+      "source_file": "README.md",
+      "source_location": "L1"
+    },
+    {
+      "id": "$graphify-root$_readme_ats_pro_suite",
+      "label": "ATS Pro Suite \ud83d\udcc4\u2728",
+      "file_type": "document",
+      "node_kind": "heading",
+      "source_file": "README.md",
+      "source_location": "L1"
+    },
+    {
+      "id": "$graphify-root$_readme_overview",
+      "label": "\ud83c\udf1f Overview",
+      "file_type": "document",
+      "node_kind": "heading",
+      "source_file": "README.md",
+      "source_location": "L15"
+    },
+    {
+      "id": "$graphify-root$_readme_key_features",
+      "label": "\ud83c\udfaf Key Features",
+      "file_type": "document",
+      "node_kind": "heading",
+      "source_file": "README.md",
+      "source_location": "L23"
+    },
+    {
+      "id": "$graphify-root$_readme_1_ats_resume_builder",
+      "label": "1. \ud83d\udcc4 ATS Resume Builder",
+      "file_type": "document",
+      "node_kind": "heading",
+      "source_file": "README.md",
+      "source_location": "L25"
+    },
+    {
+      "id": "$graphify-root$_readme_2_ats_cv_builder_academic_professional",
+      "label": "2. \ud83c\udf93 ATS CV Builder (Academic & Professional)",
+      "file_type": "document",
+      "node_kind": "heading",
+      "source_file": "README.md",
+      "source_location": "L31"
+    },
+    {
+      "id": "$graphify-root$_readme_3_standalone_cover_letter_builder",
+      "label": "3. \u2709\ufe0f Standalone Cover Letter Builder",
+      "file_type": "document",
+      "node_kind": "heading",
+      "source_file": "README.md",
+      "source_location": "L48"
+    },
+    {
+      "id": "$graphify-root$_readme_4_ats_document_analyzer_auditor",
+      "label": "4. \ud83d\udd0d ATS Document Analyzer & Auditor",
+      "file_type": "document",
+      "node_kind": "heading",
+      "source_file": "README.md",
+      "source_location": "L53"
+    },
+    {
+      "id": "$graphify-root$_readme_5_privacy_first_architecture",
+      "label": "5. \ud83d\udd12 Privacy-First Architecture",
+      "file_type": "document",
+      "node_kind": "heading",
+      "source_file": "README.md",
+      "source_location": "L59"
+    },
+    {
+      "id": "$graphify-root$_readme_tech_stack",
+      "label": "\ud83d\udee0\ufe0f Tech Stack",
+      "file_type": "document",
+      "node_kind": "heading",
+      "source_file": "README.md",
+      "source_location": "L65"
+    },
+    {
+      "id": "$graphify-root$_readme_getting_started_with_pnpm",
+      "label": "\ud83d\ude80 Getting Started with pnpm",
+      "file_type": "document",
+      "node_kind": "heading",
+      "source_file": "README.md",
+      "source_location": "L83"
+    },
+    {
+      "id": "$graphify-root$_readme_prerequisites",
+      "label": "Prerequisites",
+      "file_type": "document",
+      "node_kind": "heading",
+      "source_file": "README.md",
+      "source_location": "L85"
+    },
+    {
+      "id": "$graphify-root$_readme_step_1_clone_the_repository",
+      "label": "Step 1: Clone the Repository",
+      "file_type": "document",
+      "node_kind": "heading",
+      "source_file": "README.md",
+      "source_location": "L100"
+    },
+    {
+      "id": "$graphify-root$_readme_step_2_install_dependencies",
+      "label": "Step 2: Install Dependencies",
+      "file_type": "document",
+      "node_kind": "heading",
+      "source_file": "README.md",
+      "source_location": "L109"
+    },
+    {
+      "id": "$graphify-root$_readme_step_3_configure_environment_variables",
+      "label": "Step 3: Configure Environment Variables",
+      "file_type": "document",
+      "node_kind": "heading",
+      "source_file": "README.md",
+      "source_location": "L119"
+    },
+    {
+      "id": "$graphify-root$_readme_step_4_run_the_development_server",
+      "label": "Step 4: Run the Development Server",
+      "file_type": "document",
+      "node_kind": "heading",
+      "source_file": "README.md",
+      "source_location": "L152"
+    },
+    {
+      "id": "$graphify-root$_readme_step_5_production_build_preview",
+      "label": "Step 5: Production Build & Preview",
+      "file_type": "document",
+      "node_kind": "heading",
+      "source_file": "README.md",
+      "source_location": "L167"
+    },
+    {
+      "id": "$graphify-root$_readme_available_scripts",
+      "label": "\ud83d\udcdc Available Scripts",
+      "file_type": "document",
+      "node_kind": "heading",
+      "source_file": "README.md",
+      "source_location": "L181"
+    },
+    {
+      "id": "$graphify-root$_readme_project_structure",
+      "label": "\ud83d\udcc2 Project Structure",
+      "file_type": "document",
+      "node_kind": "heading",
+      "source_file": "README.md",
+      "source_location": "L194"
+    },
+    {
+      "id": "$graphify-root$_readme_architecture_rules",
+      "label": "\ud83d\udee1\ufe0f Architecture & Rules",
+      "file_type": "document",
+      "node_kind": "heading",
+      "source_file": "README.md",
+      "source_location": "L228"
+    },
+    {
+      "id": "$graphify-root$_readme_contributing",
+      "label": "\ud83e\udd1d Contributing",
+      "file_type": "document",
+      "node_kind": "heading",
+      "source_file": "README.md",
+      "source_location": "L236"
+    },
+    {
+      "id": "$graphify-root$_readme_license",
+      "label": "\ud83d\udcc4 License",
+      "file_type": "document",
+      "node_kind": "heading",
+      "source_file": "README.md",
+      "source_location": "L248"
+    }
+  ],
+  "edges": [
+    {
+      "source": "$graphify-root$_readme_md",
+      "target": "$graphify-root$_readme_ats_pro_suite",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "README.md",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_readme_ats_pro_suite",
+      "target": "$graphify-root$_readme_overview",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "README.md",
+      "source_location": "L15",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_readme_ats_pro_suite",
+      "target": "$graphify-root$_readme_key_features",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "README.md",
+      "source_location": "L23",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_readme_key_features",
+      "target": "$graphify-root$_readme_1_ats_resume_builder",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "README.md",
+      "source_location": "L25",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_readme_key_features",
+      "target": "$graphify-root$_readme_2_ats_cv_builder_academic_professional",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "README.md",
+      "source_location": "L31",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_readme_key_features",
+      "target": "$graphify-root$_readme_3_standalone_cover_letter_builder",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "README.md",
+      "source_location": "L48",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_readme_key_features",
+      "target": "$graphify-root$_readme_4_ats_document_analyzer_auditor",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "README.md",
+      "source_location": "L53",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_readme_key_features",
+      "target": "$graphify-root$_readme_5_privacy_first_architecture",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "README.md",
+      "source_location": "L59",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_readme_ats_pro_suite",
+      "target": "$graphify-root$_readme_tech_stack",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "README.md",
+      "source_location": "L65",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_readme_ats_pro_suite",
+      "target": "$graphify-root$_readme_getting_started_with_pnpm",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "README.md",
+      "source_location": "L83",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_readme_getting_started_with_pnpm",
+      "target": "$graphify-root$_readme_prerequisites",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "README.md",
+      "source_location": "L85",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_readme_getting_started_with_pnpm",
+      "target": "$graphify-root$_readme_step_1_clone_the_repository",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "README.md",
+      "source_location": "L100",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_readme_getting_started_with_pnpm",
+      "target": "$graphify-root$_readme_step_2_install_dependencies",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "README.md",
+      "source_location": "L109",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_readme_getting_started_with_pnpm",
+      "target": "$graphify-root$_readme_step_3_configure_environment_variables",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "README.md",
+      "source_location": "L119",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_readme_getting_started_with_pnpm",
+      "target": "$graphify-root$_readme_step_4_run_the_development_server",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "README.md",
+      "source_location": "L152",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_readme_getting_started_with_pnpm",
+      "target": "$graphify-root$_readme_step_5_production_build_preview",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "README.md",
+      "source_location": "L167",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_readme_ats_pro_suite",
+      "target": "$graphify-root$_readme_available_scripts",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "README.md",
+      "source_location": "L181",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_readme_ats_pro_suite",
+      "target": "$graphify-root$_readme_project_structure",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "README.md",
+      "source_location": "L194",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_readme_ats_pro_suite",
+      "target": "$graphify-root$_readme_architecture_rules",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "README.md",
+      "source_location": "L228",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_readme_ats_pro_suite",
+      "target": "$graphify-root$_readme_contributing",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "README.md",
+      "source_location": "L236",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_readme_ats_pro_suite",
+      "target": "$graphify-root$_readme_license",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "README.md",
+      "source_location": "L248",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_readme_md",
+      "target": "$graphify-root$_license_md",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "README.md",
+      "source_location": "L250",
+      "weight": 1.0
+    }
+  ],
+  "input_tokens": 0,
+  "output_tokens": 0
+}

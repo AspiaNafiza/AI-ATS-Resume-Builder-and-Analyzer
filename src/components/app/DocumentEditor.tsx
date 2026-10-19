@@ -1,5 +1,16 @@
 import { useEffect, useRef, useState } from "react";
-import { ChevronDown, ChevronUp, FileText, Loader2, Plus, Sparkles, Trash2, User } from "lucide-react";
+import { Link } from "@tanstack/react-router";
+import {
+  ChevronDown,
+  ChevronUp,
+  ExternalLink,
+  FileText,
+  Loader2,
+  Plus,
+  Sparkles,
+  Trash2,
+  User,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import type {
   AdditionalEntry,
@@ -96,12 +107,18 @@ ${name}`;
 }
 
 const blankCertification = (): CertificationEntry => ({ name: "", issuer: "", period: "" });
-const blankAdditional = (): AdditionalEntry => ({ type: "", title: "", organization: "", period: "", details: "" });
+const blankAdditional = (): AdditionalEntry => ({
+  type: "",
+  title: "",
+  organization: "",
+  period: "",
+  details: "",
+});
 
 export function parseLegacyDates(
   startDate?: string,
   endDate?: string,
-  legacyPeriod?: string
+  legacyPeriod?: string,
 ): { startDate: string; endDate: string } {
   let start = (startDate ?? "").trim();
   let end = (endDate ?? "").trim();
@@ -134,20 +151,28 @@ export function emptyDoc(type: BuilderResult["document_type"]): BuilderResult {
       languages: [],
       references: [],
       attachments: [],
-      cover_letter: type === "cv" || type === "cover_letter" ? getDefaultCoverLetter(p) : "",
+      cover_letter: type === "cover_letter" ? getDefaultCoverLetter(p) : "",
     },
   };
 }
 
-export function normalizeLegacyDoc(value: unknown, fallbackType: BuilderResult["document_type"]): BuilderResult {
+export function normalizeLegacyDoc(
+  value: unknown,
+  fallbackType: BuilderResult["document_type"],
+): BuilderResult {
   if (!value || typeof value !== "object") return emptyDoc(fallbackType);
-  const raw = value as { document_type?: unknown; personal?: unknown; sections?: Record<string, unknown> };
+  const raw = value as {
+    document_type?: unknown;
+    personal?: unknown;
+    sections?: Record<string, unknown>;
+  };
   const sections = raw.sections && typeof raw.sections === "object" ? raw.sections : {};
   const stringValue = (item: unknown) => (typeof item === "string" ? item : "");
   const arrayValue = (item: unknown) => (Array.isArray(item) ? item : []);
 
   const rawPersonal = raw.personal;
-  const personalEntry = rawPersonal && typeof rawPersonal === "object" ? (rawPersonal as Record<string, unknown>) : {};
+  const personalEntry =
+    rawPersonal && typeof rawPersonal === "object" ? (rawPersonal as Record<string, unknown>) : {};
   const personal: PersonalInfo = {
     fullName: stringValue(personalEntry["fullName"]),
     headline: stringValue(personalEntry["headline"]),
@@ -162,7 +187,10 @@ export function normalizeLegacyDoc(value: unknown, fallbackType: BuilderResult["
   const skills = Array.isArray(sections["skills"])
     ? (sections["skills"] as unknown[]).map(stringValue).filter(Boolean)
     : typeof sections["skills"] === "string"
-      ? (sections["skills"] as string).split(",").map((s) => s.trim()).filter(Boolean)
+      ? (sections["skills"] as string)
+          .split(",")
+          .map((s) => s.trim())
+          .filter(Boolean)
       : [];
 
   const experience = arrayValue(sections["experience"]).map((item): ExperienceEntry => {
@@ -171,12 +199,15 @@ export function normalizeLegacyDoc(value: unknown, fallbackType: BuilderResult["
     const bullets = Array.isArray(rawBullets)
       ? (rawBullets as unknown[]).map(stringValue).filter(Boolean)
       : typeof rawBullets === "string"
-        ? (rawBullets as string).split("\n").map((b) => b.trim()).filter(Boolean)
+        ? (rawBullets as string)
+            .split("\n")
+            .map((b) => b.trim())
+            .filter(Boolean)
         : [];
     const parsed = parseLegacyDates(
       stringValue(entry["startDate"]),
       stringValue(entry["endDate"]),
-      stringValue(entry["period"])
+      stringValue(entry["period"]),
     );
     const startDate = stringValue(entry["startDate"]) || parsed.startDate;
     const endDate = stringValue(entry["endDate"]) || parsed.endDate;
@@ -195,7 +226,7 @@ export function normalizeLegacyDoc(value: unknown, fallbackType: BuilderResult["
     const parsed = parseLegacyDates(
       stringValue(entry["startDate"]),
       stringValue(entry["endDate"]),
-      stringValue(entry["period"])
+      stringValue(entry["period"]),
     );
     const startDate = stringValue(entry["startDate"]) || parsed.startDate;
     const endDate = stringValue(entry["endDate"]) || parsed.endDate;
@@ -211,7 +242,11 @@ export function normalizeLegacyDoc(value: unknown, fallbackType: BuilderResult["
   const certifications = arrayValue(sections["certifications"]).map((item): CertificationEntry => {
     if (typeof item === "string") return { name: item, issuer: "", period: "" };
     const entry = item && typeof item === "object" ? (item as Record<string, unknown>) : {};
-    return { name: stringValue(entry["name"]), issuer: stringValue(entry["issuer"]), period: stringValue(entry["period"]) };
+    return {
+      name: stringValue(entry["name"]),
+      issuer: stringValue(entry["issuer"]),
+      period: stringValue(entry["period"]),
+    };
   });
 
   const languages = arrayValue(sections["languages"]).map((item): LanguageEntry => {
@@ -255,13 +290,18 @@ export function normalizeLegacyDoc(value: unknown, fallbackType: BuilderResult["
     ? (sections["attachments"] as unknown[]).map(stringValue).filter(Boolean)
     : [];
 
-  const cover_letter =
-    stringValue(sections["cover_letter"]) ||
-    (fallbackType === "cv" || fallbackType === "cover_letter" ? getDefaultCoverLetter(personal) : "");
+  const hasCoverLetterKey = "cover_letter" in sections;
+  const cover_letter = hasCoverLetterKey
+    ? stringValue(sections["cover_letter"])
+    : fallbackType === "cover_letter"
+      ? getDefaultCoverLetter(personal)
+      : "";
 
   return {
     document_type:
-      raw.document_type === "resume" || raw.document_type === "cv" || raw.document_type === "cover_letter"
+      raw.document_type === "resume" ||
+      raw.document_type === "cv" ||
+      raw.document_type === "cover_letter"
         ? raw.document_type
         : fallbackType,
     personal,
@@ -319,7 +359,9 @@ export function normalizeDoc(doc: BuilderResult): BuilderResult {
       experience: (Array.isArray(s.experience) ? s.experience : [])
         .map((entry) => {
           const parsed = parseLegacyDates(entry?.startDate, entry?.endDate, entry?.period);
-          const startDate = safeStr(entry?.startDate !== undefined ? entry.startDate : parsed.startDate);
+          const startDate = safeStr(
+            entry?.startDate !== undefined ? entry.startDate : parsed.startDate,
+          );
           const endDate = safeStr(entry?.endDate !== undefined ? entry.endDate : parsed.endDate);
           const period = formatPeriod(startDate, endDate, safeStr(entry?.period));
           return {
@@ -335,7 +377,9 @@ export function normalizeDoc(doc: BuilderResult): BuilderResult {
       education: (Array.isArray(s.education) ? s.education : [])
         .map((entry) => {
           const parsed = parseLegacyDates(entry?.startDate, entry?.endDate, entry?.period);
-          const startDate = safeStr(entry?.startDate !== undefined ? entry.startDate : parsed.startDate);
+          const startDate = safeStr(
+            entry?.startDate !== undefined ? entry.startDate : parsed.startDate,
+          );
           const endDate = safeStr(entry?.endDate !== undefined ? entry.endDate : parsed.endDate);
           const period = formatPeriod(startDate, endDate, safeStr(entry?.period));
           return {
@@ -349,7 +393,8 @@ export function normalizeDoc(doc: BuilderResult): BuilderResult {
         .filter((entry) => entry.credential || entry.institution),
       certifications: (Array.isArray(s.certifications) ? s.certifications : [])
         .map((entry) => {
-          if (typeof entry === "string") return { name: (entry as string).trim(), issuer: "", period: "" };
+          if (typeof entry === "string")
+            return { name: (entry as string).trim(), issuer: "", period: "" };
           return {
             name: safeStr(entry?.name),
             issuer: safeStr(entry?.issuer),
@@ -400,7 +445,8 @@ export function normalizeDoc(doc: BuilderResult): BuilderResult {
   };
 }
 
-const field = "w-full rounded-sm border border-input bg-background px-3 py-2 text-sm outline-none focus:border-ring";
+const field =
+  "w-full rounded-sm border border-input bg-background px-3 py-2 text-sm outline-none focus:border-ring";
 const label = "block text-xs font-semibold uppercase tracking-wider text-muted-foreground";
 
 /** Provide non-destructive safe defaults for live editing in DocumentEditor (does NOT trim whitespace). */
@@ -440,8 +486,12 @@ export function ensureEditorDoc(doc: BuilderResult): BuilderResult & { personal:
       experience: Array.isArray(s.experience)
         ? s.experience.map((entry) => {
             const parsed = parseLegacyDates(entry?.startDate, entry?.endDate, entry?.period);
-            const startDate = stringVal(entry?.startDate !== undefined ? entry.startDate : parsed.startDate);
-            const endDate = stringVal(entry?.endDate !== undefined ? entry.endDate : parsed.endDate);
+            const startDate = stringVal(
+              entry?.startDate !== undefined ? entry.startDate : parsed.startDate,
+            );
+            const endDate = stringVal(
+              entry?.endDate !== undefined ? entry.endDate : parsed.endDate,
+            );
             return {
               title: stringVal(entry?.title),
               organization: stringVal(entry?.organization),
@@ -455,8 +505,12 @@ export function ensureEditorDoc(doc: BuilderResult): BuilderResult & { personal:
       education: Array.isArray(s.education)
         ? s.education.map((entry) => {
             const parsed = parseLegacyDates(entry?.startDate, entry?.endDate, entry?.period);
-            const startDate = stringVal(entry?.startDate !== undefined ? entry.startDate : parsed.startDate);
-            const endDate = stringVal(entry?.endDate !== undefined ? entry.endDate : parsed.endDate);
+            const startDate = stringVal(
+              entry?.startDate !== undefined ? entry.startDate : parsed.startDate,
+            );
+            const endDate = stringVal(
+              entry?.endDate !== undefined ? entry.endDate : parsed.endDate,
+            );
             return {
               credential: stringVal(entry?.credential),
               institution: stringVal(entry?.institution),
@@ -620,14 +674,18 @@ export function DocumentEditor({
                   onChange={(event) =>
                     set({
                       extra: s.extra.map((item, itemIndex) =>
-                        itemIndex === index ? { ...item, type: "Paragraph", details: event.target.value } : item
+                        itemIndex === index
+                          ? { ...item, type: "Paragraph", details: event.target.value }
+                          : item,
                       ),
                     })
                   }
                 />
                 <IconRemove
                   label={`Remove paragraph ${index + 1}`}
-                  onClick={() => set({ extra: s.extra.filter((_, itemIndex) => itemIndex !== index) })}
+                  onClick={() =>
+                    set({ extra: s.extra.filter((_, itemIndex) => itemIndex !== index) })
+                  }
                 />
               </div>
             ))}
@@ -637,7 +695,9 @@ export function DocumentEditor({
             variant="outline"
             size="sm"
             className="mt-3 rounded-sm"
-            onClick={() => set({ extra: [...s.extra, { ...blankAdditional(), type: "Paragraph" }] })}
+            onClick={() =>
+              set({ extra: [...s.extra, { ...blankAdditional(), type: "Paragraph" }] })
+            }
           >
             <Plus className="h-3.5 w-3.5" /> Add paragraph
           </Button>
@@ -661,7 +721,9 @@ export function DocumentEditor({
             Mention documents or portfolio items enclosed with your cover letter.
           </p>
           <div className="flex flex-wrap gap-1.5 pt-2">
-            <span className="text-[11px] font-medium text-muted-foreground self-center mr-1">Quick add:</span>
+            <span className="text-[11px] font-medium text-muted-foreground self-center mr-1">
+              Quick add:
+            </span>
             {COMMON_ATTACHMENTS.map((preset) => {
               const isAdded = (s.attachments || []).includes(preset);
               return (
@@ -681,7 +743,8 @@ export function DocumentEditor({
                     }
                   }}
                 >
-                  {isAdded ? "✓ " : "+ "}{preset}
+                  {isAdded ? "✓ " : "+ "}
+                  {preset}
                 </button>
               );
             })}
@@ -697,7 +760,7 @@ export function DocumentEditor({
                   onChange={(e) =>
                     set({
                       attachments: (s.attachments || []).map((item, itemIndex) =>
-                        itemIndex === index ? e.target.value : item
+                        itemIndex === index ? e.target.value : item,
                       ),
                     })
                   }
@@ -706,7 +769,9 @@ export function DocumentEditor({
                   label={`Remove attachment ${index + 1}`}
                   onClick={() =>
                     set({
-                      attachments: (s.attachments || []).filter((_, itemIndex) => itemIndex !== index),
+                      attachments: (s.attachments || []).filter(
+                        (_, itemIndex) => itemIndex !== index,
+                      ),
                     })
                   }
                 />
@@ -721,79 +786,42 @@ export function DocumentEditor({
   const updateExperience = (index: number, patch: Partial<ExperienceEntry>) =>
     set({
       experience: s.experience.map((entry, itemIndex) =>
-        itemIndex === index ? { ...entry, ...patch } : entry
+        itemIndex === index ? { ...entry, ...patch } : entry,
       ),
     });
   const updateEducation = (index: number, patch: Partial<EducationEntry>) =>
     set({
       education: s.education.map((entry, itemIndex) =>
-        itemIndex === index ? { ...entry, ...patch } : entry
+        itemIndex === index ? { ...entry, ...patch } : entry,
       ),
     });
   const updateCertification = (index: number, patch: Partial<CertificationEntry>) =>
     set({
       certifications: s.certifications.map((entry, itemIndex) =>
-        itemIndex === index ? { ...entry, ...patch } : entry
+        itemIndex === index ? { ...entry, ...patch } : entry,
       ),
     });
   const updateAdditional = (index: number, patch: Partial<AdditionalEntry>) =>
     set({
       extra: s.extra.map((entry, itemIndex) =>
-        itemIndex === index ? { ...entry, ...patch } : entry
+        itemIndex === index ? { ...entry, ...patch } : entry,
       ),
     });
   const updateLanguage = (index: number, patch: Partial<LanguageEntry>) =>
     set({
       languages: (s.languages || []).map((entry, itemIndex) =>
-        itemIndex === index ? { ...entry, ...patch } : entry
+        itemIndex === index ? { ...entry, ...patch } : entry,
       ),
     });
   const updateReference = (index: number, patch: Partial<ReferenceEntry>) =>
     set({
       references: (s.references || []).map((entry, itemIndex) =>
-        itemIndex === index ? { ...entry, ...patch } : entry
+        itemIndex === index ? { ...entry, ...patch } : entry,
       ),
     });
 
   return (
     <div className="space-y-6">
-      {/* COVER LETTER AS PART OF CV */}
-      {liveDoc.document_type === "cv" ? (
-        <div className="rounded-md border border-border bg-card p-4 space-y-3 shadow-xs">
-          <div className="flex items-center justify-between gap-3 flex-wrap">
-            <div>
-              <h3 className="text-sm font-semibold text-foreground flex items-center gap-2">
-                <FileText className="h-4 w-4 text-accent" />
-                Cover Letter (Included as Part of your CV)
-              </h3>
-              <p className="text-xs text-muted-foreground">
-                Your CV application includes a tailored cover letter following the executive ATS standard pattern.
-              </p>
-            </div>
-            <Button
-              type="button"
-              variant="outline"
-              size="sm"
-              className="h-7 text-xs"
-              onClick={() => set({ cover_letter: getDefaultCoverLetter(p) })}
-              title="Reset cover letter to default template pattern"
-            >
-              Reset to standard pattern
-            </Button>
-          </div>
-          <textarea
-            rows={10}
-            className={`${field} font-mono text-xs leading-relaxed`}
-            placeholder={getDefaultCoverLetter(p)}
-            value={s.cover_letter !== undefined && s.cover_letter !== "" ? s.cover_letter : getDefaultCoverLetter(p)}
-            onChange={(event) => set({ cover_letter: event.target.value })}
-          />
-          <p className="text-[11px] text-muted-foreground">
-            This cover letter appears at the start of your CV preview and exports as Page 1 in the downloaded PDF.
-          </p>
-        </div>
-      ) : null}
-
       <PersonalSection personal={p} onChange={updatePersonal} />
       <div>
         <div className="flex items-center justify-between gap-3">
@@ -833,7 +861,8 @@ export function DocumentEditor({
           onChange={(event) => set({ summary: event.target.value })}
         />
         <p className="mt-1 text-xs text-muted-foreground">
-          Single-click &ldquo;Improve with AI&rdquo; to rewrite and strengthen this summary using your document facts.
+          Single-click &ldquo;Improve with AI&rdquo; to rewrite and strengthen this summary using
+          your document facts.
         </p>
       </div>
 
@@ -936,7 +965,7 @@ export function DocumentEditor({
                     onChange={(event) =>
                       updateExperience(index, {
                         bullets: entry.bullets.map((item, itemIndex) =>
-                          itemIndex === bulletIndex ? event.target.value : item
+                          itemIndex === bulletIndex ? event.target.value : item,
                         ),
                       })
                     }
@@ -990,7 +1019,9 @@ export function DocumentEditor({
                       label={`Remove bullet ${bulletIndex + 1}`}
                       onClick={() =>
                         updateExperience(index, {
-                          bullets: entry.bullets.filter((_, itemIndex) => itemIndex !== bulletIndex),
+                          bullets: entry.bullets.filter(
+                            (_, itemIndex) => itemIndex !== bulletIndex,
+                          ),
                         })
                       }
                     />
@@ -1004,7 +1035,9 @@ export function DocumentEditor({
               variant="link"
               size="sm"
               className="h-auto px-0 text-xs text-muted-foreground hover:text-destructive"
-              onClick={() => set({ experience: s.experience.filter((_, itemIndex) => itemIndex !== index) })}
+              onClick={() =>
+                set({ experience: s.experience.filter((_, itemIndex) => itemIndex !== index) })
+              }
             >
               Remove role
             </Button>
@@ -1105,7 +1138,11 @@ export function DocumentEditor({
             />
             <IconRemove
               label="Remove certification"
-              onClick={() => set({ certifications: s.certifications.filter((_, itemIndex) => itemIndex !== index) })}
+              onClick={() =>
+                set({
+                  certifications: s.certifications.filter((_, itemIndex) => itemIndex !== index),
+                })
+              }
             />
           </div>
         ))}
@@ -1120,9 +1157,10 @@ export function DocumentEditor({
           })
         }
       >
-        {(!s.languages || s.languages.length === 0) ? (
+        {!s.languages || s.languages.length === 0 ? (
           <p className="text-xs italic text-muted-foreground">
-            No languages added yet. Click &ldquo;Add language&rdquo; to add languages and proficiency.
+            No languages added yet. Click &ldquo;Add language&rdquo; to add languages and
+            proficiency.
           </p>
         ) : null}
         {(s.languages || []).map((entry, index) => (
@@ -1145,7 +1183,10 @@ export function DocumentEditor({
                   {level}
                 </option>
               ))}
-              {entry.proficiency && !PROFICIENCY_LEVELS.includes(entry.proficiency as any) ? (
+              {entry.proficiency &&
+              !PROFICIENCY_LEVELS.includes(
+                entry.proficiency as (typeof PROFICIENCY_LEVELS)[number],
+              ) ? (
                 <option value={entry.proficiency}>{entry.proficiency}</option>
               ) : null}
             </select>
@@ -1162,7 +1203,11 @@ export function DocumentEditor({
       </EditorSection>
 
       <EditorSection
-        title={doc.document_type === "cv" ? "Publications, grants, teaching and awards" : "Projects and awards"}
+        title={
+          doc.document_type === "cv"
+            ? "Publications, grants, teaching and awards"
+            : "Projects and awards"
+        }
         addLabel="Add item"
         onAdd={() => set({ extra: [...s.extra, blankAdditional()] })}
       >
@@ -1199,7 +1244,9 @@ export function DocumentEditor({
               />
               <IconRemove
                 label="Remove item"
-                onClick={() => set({ extra: s.extra.filter((_, itemIndex) => itemIndex !== index) })}
+                onClick={() =>
+                  set({ extra: s.extra.filter((_, itemIndex) => itemIndex !== index) })
+                }
               />
             </div>
             <textarea
@@ -1224,9 +1271,10 @@ export function DocumentEditor({
           })
         }
       >
-        {(!s.references || s.references.length === 0) ? (
+        {!s.references || s.references.length === 0 ? (
           <p className="text-xs italic text-muted-foreground">
-            No references added yet. Click &ldquo;Add reference&rdquo; to add professors, supervisors, or mentors who can refer you.
+            No references added yet. Click &ldquo;Add reference&rdquo; to add professors,
+            supervisors, or mentors who can refer you.
           </p>
         ) : null}
         {(s.references || []).map((entry, index) => (
@@ -1304,10 +1352,13 @@ export function DocumentEditor({
         }
       >
         <p className="text-xs text-muted-foreground">
-          Mention documents or portfolio items enclosed with your application (e.g., transcripts, letters of recommendation).
+          Mention documents or portfolio items enclosed with your application (e.g., transcripts,
+          letters of recommendation).
         </p>
         <div className="flex flex-wrap gap-1.5 pt-1">
-          <span className="text-[11px] font-medium text-muted-foreground self-center mr-1">Quick add:</span>
+          <span className="text-[11px] font-medium text-muted-foreground self-center mr-1">
+            Quick add:
+          </span>
           {COMMON_ATTACHMENTS.map((preset) => {
             const isAdded = (s.attachments || []).includes(preset);
             return (
@@ -1327,15 +1378,17 @@ export function DocumentEditor({
                   }
                 }}
               >
-                {isAdded ? "✓ " : "+ "}{preset}
+                {isAdded ? "✓ " : "+ "}
+                {preset}
               </button>
             );
           })}
         </div>
 
-        {(!s.attachments || s.attachments.length === 0) ? (
+        {!s.attachments || s.attachments.length === 0 ? (
           <p className="text-xs italic text-muted-foreground mt-2">
-            No attachments specified. Click a suggestion above or &ldquo;Add attachment mention&rdquo;.
+            No attachments specified. Click a suggestion above or &ldquo;Add attachment
+            mention&rdquo;.
           </p>
         ) : null}
 
@@ -1350,7 +1403,7 @@ export function DocumentEditor({
                 onChange={(e) =>
                   set({
                     attachments: (s.attachments || []).map((item, itemIndex) =>
-                      itemIndex === index ? e.target.value : item
+                      itemIndex === index ? e.target.value : item,
                     ),
                   })
                 }
@@ -1359,7 +1412,9 @@ export function DocumentEditor({
                 label={`Remove attachment ${index + 1}`}
                 onClick={() =>
                   set({
-                    attachments: (s.attachments || []).filter((_, itemIndex) => itemIndex !== index),
+                    attachments: (s.attachments || []).filter(
+                      (_, itemIndex) => itemIndex !== index,
+                    ),
                   })
                 }
               />
@@ -1367,6 +1422,96 @@ export function DocumentEditor({
           ))}
         </div>
       </EditorSection>
+
+      {/* COVER LETTER ATTACHED UNDER CV */}
+      {liveDoc.document_type === "cv" ? (
+        <div className="rounded-md border border-border bg-card p-4 space-y-3 shadow-xs">
+          <div className="flex items-center justify-between gap-3 flex-wrap">
+            <div className="space-y-0.5">
+              <h3 className="text-sm font-semibold text-foreground flex items-center gap-2">
+                <FileText className="h-4 w-4 text-accent" />
+                <span>Cover Letter (Attached Under CV)</span>
+                <span
+                  className={`rounded-full px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider ${
+                    s.cover_letter && s.cover_letter.trim()
+                      ? "bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 border border-emerald-500/30"
+                      : "bg-muted text-muted-foreground border border-border"
+                  }`}
+                >
+                  {s.cover_letter && s.cover_letter.trim() ? "Active" : "Not Included"}
+                </span>
+              </h3>
+              <p className="text-xs text-muted-foreground">
+                {s.cover_letter && s.cover_letter.trim()
+                  ? "Your CV application includes a tailored executive cover letter. You can download it separately or together."
+                  : "No cover letter is currently attached to this CV."}
+              </p>
+            </div>
+            <div className="flex flex-wrap items-center gap-2">
+              {s.cover_letter && s.cover_letter.trim() ? (
+                <>
+                  <Link
+                    to="/builder/$type"
+                    params={{ type: "cover-letter" }}
+                    className="inline-flex items-center gap-1 rounded-sm bg-secondary px-2.5 py-1 text-xs font-medium text-foreground hover:bg-secondary/80 transition-colors"
+                    title="Open in standalone Cover Letter Builder"
+                  >
+                    <ExternalLink className="h-3 w-3" />
+                    <span>Open in Cover Letter Page</span>
+                  </Link>
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="sm"
+                    className="h-7 text-xs"
+                    onClick={() => set({ cover_letter: getDefaultCoverLetter(p) })}
+                    title="Reset cover letter to default template pattern"
+                  >
+                    Reset template
+                  </Button>
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="sm"
+                    className="h-7 text-xs text-destructive hover:bg-destructive/10"
+                    onClick={() => set({ cover_letter: "" })}
+                    title="Remove cover letter from this CV"
+                  >
+                    Remove cover letter
+                  </Button>
+                </>
+              ) : (
+                <Button
+                  type="button"
+                  variant="default"
+                  size="sm"
+                  className="h-7 text-xs gap-1"
+                  onClick={() => set({ cover_letter: getDefaultCoverLetter(p) })}
+                  title="Attach a tailored cover letter to this CV"
+                >
+                  <Plus className="h-3 w-3" />
+                  <span>+ Include Cover Letter with CV</span>
+                </Button>
+              )}
+            </div>
+          </div>
+          {s.cover_letter && s.cover_letter.trim() ? (
+            <>
+              <textarea
+                rows={10}
+                className={`${field} font-mono text-xs leading-relaxed`}
+                placeholder={getDefaultCoverLetter(p)}
+                value={s.cover_letter}
+                onChange={(event) => set({ cover_letter: event.target.value })}
+              />
+              <p className="text-[11px] text-muted-foreground">
+                This cover letter appears under your CV in live preview, links to your Cover Letter
+                page, and can be downloaded separately as a standalone PDF.
+              </p>
+            </>
+          ) : null}
+        </div>
+      ) : null}
     </div>
   );
 }
@@ -1386,7 +1531,13 @@ function EditorSection({
     <div>
       <div className="flex items-center justify-between gap-3">
         <span className={label}>{title}</span>
-        <Button type="button" variant="outline" size="sm" className="gap-1 rounded-sm" onClick={onAdd}>
+        <Button
+          type="button"
+          variant="outline"
+          size="sm"
+          className="gap-1 rounded-sm"
+          onClick={onAdd}
+        >
           <Plus className="h-3.5 w-3.5" /> {addLabel}
         </Button>
       </div>
@@ -1427,7 +1578,10 @@ function PersonalSection({
 
       <div className="grid gap-3 sm:grid-cols-2">
         <div>
-          <label className="mb-1 block text-xs font-medium text-foreground/80" htmlFor="ed-full-name">
+          <label
+            className="mb-1 block text-xs font-medium text-foreground/80"
+            htmlFor="ed-full-name"
+          >
             Full name
           </label>
           <input
@@ -1440,7 +1594,10 @@ function PersonalSection({
           />
         </div>
         <div>
-          <label className="mb-1 block text-xs font-medium text-foreground/80" htmlFor="ed-headline">
+          <label
+            className="mb-1 block text-xs font-medium text-foreground/80"
+            htmlFor="ed-headline"
+          >
             Professional title / headline
           </label>
           <input
@@ -1484,7 +1641,10 @@ function PersonalSection({
           />
         </div>
         <div>
-          <label className="mb-1 block text-xs font-medium text-foreground/80" htmlFor="ed-location">
+          <label
+            className="mb-1 block text-xs font-medium text-foreground/80"
+            htmlFor="ed-location"
+          >
             Location
           </label>
           <input
@@ -1526,7 +1686,10 @@ function PersonalSection({
           />
         </div>
         <div>
-          <label className="mb-1 block text-xs font-medium text-foreground/80" htmlFor="ed-linkedin">
+          <label
+            className="mb-1 block text-xs font-medium text-foreground/80"
+            htmlFor="ed-linkedin"
+          >
             LinkedIn
           </label>
           <input

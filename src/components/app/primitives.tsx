@@ -93,7 +93,8 @@ export function TagList({
 
 export function ScoreCircle({ score }: { score: number }) {
   const clamped = Math.max(0, Math.min(100, Math.round(score)));
-  const tone = clamped >= 75 ? "var(--success)" : clamped >= 50 ? "var(--warning)" : "var(--destructive)";
+  const tone =
+    clamped >= 75 ? "var(--success)" : clamped >= 50 ? "var(--warning)" : "var(--destructive)";
   return (
     <div className="flex items-center gap-4">
       <div

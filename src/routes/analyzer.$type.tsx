@@ -2,7 +2,16 @@ import { createFileRoute, Link, redirect } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
 import { useMutation } from "@tanstack/react-query";
 import { useEffect, useRef, useState } from "react";
-import { BookmarkCheck, Download, ExternalLink, FileText, FolderOpen, Sparkles, Upload, X } from "lucide-react";
+import {
+  BookmarkCheck,
+  Download,
+  ExternalLink,
+  FileText,
+  FolderOpen,
+  Sparkles,
+  Upload,
+  X,
+} from "lucide-react";
 import { toast } from "sonner";
 import { useAuth, useClerk } from "@clerk/tanstack-react-start";
 import { analyzeDocument, getRecentAnalyses, listMyDocuments } from "@/lib/arie.functions";
@@ -204,7 +213,10 @@ function AnalyzerScreen() {
         data: {
           target: slugToType(slug) as AnalyzerTarget,
           document: docText,
-          pdf: inputMode === "pdf" && pdfFile ? { filename: pdfFile.name, base64: pdfFile.base64 } : null,
+          pdf:
+            inputMode === "pdf" && pdfFile
+              ? { filename: pdfFile.name, base64: pdfFile.base64 }
+              : null,
           jobDescription: jobDescription.trim(),
           documentId: activeDocId,
         },
@@ -298,9 +310,12 @@ function AnalyzerScreen() {
                       <BookmarkCheck className="h-5 w-5" />
                     </div>
                     <div className="space-y-1">
-                      <h4 className="text-sm font-semibold text-foreground">Analyze from your saved database</h4>
+                      <h4 className="text-sm font-semibold text-foreground">
+                        Analyze from your saved database
+                      </h4>
                       <p className="mx-auto max-w-sm text-xs text-muted-foreground">
-                        Sign in to select any resume, CV, or cover letter you have built or saved, without having to upload PDFs or re-paste text.
+                        Sign in to select any resume, CV, or cover letter you have built or saved,
+                        without having to upload PDFs or re-paste text.
                       </p>
                     </div>
                     <div className="flex flex-wrap items-center justify-center gap-2 pt-1">
@@ -322,7 +337,7 @@ function AnalyzerScreen() {
                             setJobDescription(
                               slug === "cover-letter"
                                 ? "Seeking a Lead Technical Program Manager with experience in AI systems, cross-functional delivery, distributed infrastructure, and stakeholder communication."
-                                : "Seeking a Senior Engineer with deep expertise in TypeScript, distributed systems, clean architecture, automated testing, and cloud environments."
+                                : "Seeking a Senior Engineer with deep expertise in TypeScript, distributed systems, clean architecture, automated testing, and cloud environments.",
                             );
                           }
                           toast.success(`Loaded sample ${docLabel[slug]} into text analyzer.`);
@@ -334,16 +349,21 @@ function AnalyzerScreen() {
                     </div>
                   </div>
                 ) : loadingSaved ? (
-                  <div className="p-8 text-center text-xs text-muted-foreground">Loading your saved documents…</div>
+                  <div className="p-8 text-center text-xs text-muted-foreground">
+                    Loading your saved documents…
+                  </div>
                 ) : savedDocs.length === 0 ? (
                   <div className="space-y-3 rounded-lg border border-border bg-surface p-6 text-center">
                     <div className="mx-auto grid h-10 w-10 place-items-center rounded-full bg-secondary text-foreground">
                       <FolderOpen className="h-5 w-5" />
                     </div>
                     <div className="space-y-1">
-                      <h4 className="text-sm font-semibold text-foreground">No saved {docLabel[slug].toLowerCase()}s found</h4>
+                      <h4 className="text-sm font-semibold text-foreground">
+                        No saved {docLabel[slug].toLowerCase()}s found
+                      </h4>
                       <p className="mx-auto max-w-sm text-xs text-muted-foreground">
-                        Build your first {docLabel[slug].toLowerCase()} in the builder and it will automatically appear here for instant ATS analysis.
+                        Build your first {docLabel[slug].toLowerCase()} in the builder and it will
+                        automatically appear here for instant ATS analysis.
                       </p>
                     </div>
                     <div className="flex flex-wrap items-center justify-center gap-2 pt-1">
@@ -366,7 +386,10 @@ function AnalyzerScreen() {
                 ) : (
                   <div className="space-y-4">
                     <div>
-                      <label className="block text-xs font-semibold uppercase tracking-wider text-muted-foreground" htmlFor="savedDocSelect">
+                      <label
+                        className="block text-xs font-semibold uppercase tracking-wider text-muted-foreground"
+                        htmlFor="savedDocSelect"
+                      >
                         Select from your saved {docLabel[slug].toLowerCase()}s
                       </label>
                       <select
@@ -384,7 +407,12 @@ function AnalyzerScreen() {
                       >
                         {savedDocs.map((d) => (
                           <option key={d.id} value={d.id}>
-                            {d.title} (Saved {new Date(d.updatedAt).toLocaleDateString([], { month: "short", day: "numeric" })})
+                            {d.title} (Saved{" "}
+                            {new Date(d.updatedAt).toLocaleDateString([], {
+                              month: "short",
+                              day: "numeric",
+                            })}
+                            )
                           </option>
                         ))}
                       </select>
@@ -396,10 +424,19 @@ function AnalyzerScreen() {
                           <div>
                             <div className="flex items-center gap-2">
                               <BookmarkCheck className="h-4 w-4 shrink-0 text-primary" />
-                              <h4 className="text-sm font-semibold text-foreground">{selectedDoc.title}</h4>
+                              <h4 className="text-sm font-semibold text-foreground">
+                                {selectedDoc.title}
+                              </h4>
                             </div>
                             <p className="mt-0.5 text-xs text-muted-foreground">
-                              {selectedDoc.targetRole ? `Target: ${selectedDoc.targetRole}` : "General profile"} · Last saved {new Date(selectedDoc.updatedAt).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}
+                              {selectedDoc.targetRole
+                                ? `Target: ${selectedDoc.targetRole}`
+                                : "General profile"}{" "}
+                              · Last saved{" "}
+                              {new Date(selectedDoc.updatedAt).toLocaleTimeString([], {
+                                hour: "2-digit",
+                                minute: "2-digit",
+                              })}
                             </p>
                           </div>
                           <div className="flex flex-wrap items-center gap-3 shrink-0">
@@ -410,7 +447,7 @@ function AnalyzerScreen() {
                                   if (selectedDoc.doc) {
                                     exportDocumentToPdf(
                                       selectedDoc.doc,
-                                      `${selectedDoc.title.replace(/[^a-zA-Z0-9_-]/g, "_")}.pdf`
+                                      `${selectedDoc.title.replace(/[^a-zA-Z0-9_-]/g, "_")}.pdf`,
                                     );
                                     toast.success("PDF downloaded successfully!");
                                   }
@@ -526,7 +563,8 @@ function AnalyzerScreen() {
                 {pdfError ? <p className="text-xs text-destructive">{pdfError}</p> : null}
 
                 <p className="text-xs text-muted-foreground">
-                  The document PDF is analyzed inline server-side against the posting without parsing in the browser.
+                  The document PDF is analyzed inline server-side against the posting without
+                  parsing in the browser.
                 </p>
               </div>
             ) : (
@@ -635,27 +673,46 @@ function AnalyzerScreen() {
                 <p className="mb-2 text-xs font-medium uppercase tracking-wider text-muted-foreground">
                   Found
                 </p>
-                <TagList items={result.keyword_match.found} tone="good" empty="No posting keywords detected." />
+                <TagList
+                  items={result.keyword_match.found}
+                  tone="good"
+                  empty="No posting keywords detected."
+                />
                 <p className="mb-2 mt-5 text-xs font-medium uppercase tracking-wider text-muted-foreground">
                   Missing
                 </p>
-                <TagList items={result.keyword_match.missing} tone="gap" empty="Nothing important missing." />
+                <TagList
+                  items={result.keyword_match.missing}
+                  tone="gap"
+                  empty="Nothing important missing."
+                />
               </Panel>
 
               <Panel title="Skills">
                 <p className="mb-2 text-xs font-medium uppercase tracking-wider text-muted-foreground">
                   Matched
                 </p>
-                <TagList items={result.skill_match.matched} tone="good" empty="No skill overlap found." />
+                <TagList
+                  items={result.skill_match.matched}
+                  tone="good"
+                  empty="No skill overlap found."
+                />
                 <p className="mb-2 mt-5 text-xs font-medium uppercase tracking-wider text-muted-foreground">
                   Missing
                 </p>
-                <TagList items={result.skill_match.missing} tone="gap" empty="No skill gaps found." />
+                <TagList
+                  items={result.skill_match.missing}
+                  tone="gap"
+                  empty="No skill gaps found."
+                />
               </Panel>
 
               <Panel title="Experience relevance">
                 <div className="grid gap-5 sm:grid-cols-2">
-                  <BulletList title="Strong points" items={result.experience_relevance.strong_points} />
+                  <BulletList
+                    title="Strong points"
+                    items={result.experience_relevance.strong_points}
+                  />
                   <BulletList title="Weak points" items={result.experience_relevance.weak_points} />
                 </div>
               </Panel>
@@ -663,7 +720,10 @@ function AnalyzerScreen() {
               <Panel title="Suggestions">
                 <ol className="space-y-2 text-sm">
                   {result.suggestions.map((s, i) => (
-                    <li key={i} className="flex gap-3 border-b border-border pb-2 last:border-0 last:pb-0">
+                    <li
+                      key={i}
+                      className="flex gap-3 border-b border-border pb-2 last:border-0 last:pb-0"
+                    >
                       <span className="text-accent">{i + 1}.</span>
                       {s}
                     </li>
@@ -686,7 +746,12 @@ function AnalyzerScreen() {
               </p>
               <div className="divide-y divide-border rounded-sm border border-border">
                 {history.map((item) => {
-                  const isSelected = item.id === (selectedHistoryId || (!selectedHistoryId && response?.ok && history[0]?.id === item.id ? item.id : ""));
+                  const isSelected =
+                    item.id ===
+                    (selectedHistoryId ||
+                      (!selectedHistoryId && response?.ok && history[0]?.id === item.id
+                        ? item.id
+                        : ""));
                   return (
                     <div
                       key={item.id}
@@ -703,7 +768,9 @@ function AnalyzerScreen() {
                           })}
                         </span>
                         <span className="truncate text-muted-foreground">
-                          {item.job_description ? item.job_description.slice(0, 32) + "…" : "Analysis"}
+                          {item.job_description
+                            ? item.job_description.slice(0, 32) + "…"
+                            : "Analysis"}
                         </span>
                       </div>
                       <button
